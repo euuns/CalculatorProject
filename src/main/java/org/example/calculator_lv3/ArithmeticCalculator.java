@@ -2,8 +2,8 @@ package org.example.calculator_lv3;
 
 public class ArithmeticCalculator {
 
-    private int firstNumber;
-    private int secondNumber;
+    private Integer firstNumber;
+    private Integer secondNumber;
     private String selectedOperation;
 
     private AbstractOperation operation;
@@ -23,7 +23,13 @@ public class ArithmeticCalculator {
 
 
     public String getSelectedOperation() { return this.selectedOperation; }
+    public int getFirstNumber() { return this.firstNumber; }
     public int getSecondNumber() { return this.secondNumber; }
+
+    // 모든 변수에 값이 제대로 들어갔는지 확인
+    public Boolean isSelectedNumber() { if(this.selectedOperation == null) return Boolean.FALSE; else return Boolean.TRUE; }
+    public Boolean isFirstNumber() { if(this.firstNumber == null) return Boolean.FALSE; else return Boolean.TRUE; }
+    public Boolean isSecondNumber() { if(this.secondNumber == null) return Boolean.FALSE; else return Boolean.TRUE; }
 
 
     public int calculate(){

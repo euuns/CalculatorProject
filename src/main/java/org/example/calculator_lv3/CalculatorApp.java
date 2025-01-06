@@ -6,11 +6,28 @@ import java.util.Scanner;
 public class CalculatorApp {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String question = scanner.nextLine();
-
         InputInfo input = new InputInfo();
-        input.TakeQuestion(question);
-        input.selectOperator();
+
+
+        while(true){
+            int test = 0;
+            String question = scanner.nextLine();
+            input.TakeQuestion(question);
+
+            if (!input.checkedInputTrue()) {
+                test = 1;
+                continue;
+            }
+
+            input.selectOperator();
+            if (!input.SecondInDivision()) {
+                test = 1;
+                continue;
+            }
+
+            if(test == 0)
+                break;
+        }
 
         System.out.println(input.getResult());
     }

@@ -28,26 +28,44 @@ public class InputInfo {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (String i:question.split("")) {
-            if (checkNumber(i)){
-                if (OPERATOR == 0){
-                    stringBuilder.append(first).append(i);
-                } else{
-                    stringBuilder.append(second).append(i);
+        try{
+            for (String i:question.split("")) {
+                if (checkNumber(i)) {
+                    if (OPERATOR == 0) {
+                        stringBuilder.append(first).append(i);
+                    } else {
+                        stringBuilder.append(second).append(i);
+                    }
+                } else if (checkOperator(i)) {
+                    OPERATOR = 1;
+                    first = stringBuilder.toString();
+                    calculator.setFirstNumber(Integer.parseInt(first));
+
+                    stringBuilder.replace(0, first.length(), "");
+
+                    calculator.setSelectedOperation(i);
                 }
-            } else if (checkOperator(i)) {
-                OPERATOR = 1;
-                first = stringBuilder.toString();
-                calculator.setFirstNumber(Integer.parseInt(first));
-
-                stringBuilder.replace(0, first.length(), "");
-
-                calculator.setSelectedOperation(i);
+                else
+                    // 숫자와 연산자가 아닌 다른 문자가 입력된 경우
+                    throw new WrongInputException(i);
             }
+
+            calculator.setSecondNumber(Integer.parseInt(stringBuilder.toString()));
+
+        } catch (WrongInputException e){
+            System.out.println(e.getMessage());
         }
-        calculator.setSecondNumber(Integer.parseInt(stringBuilder.toString()));
 
         return InputInfo.this;
+    }
+
+
+    // 모든 변수에 값이 들어가지 않았을 경우, FALSE를 반환한다.
+    public Boolean checkedInputTrue(){
+        if(calculator.isSelectedNumber() && calculator.isFirstNumber() && calculator.isSecondNumber()){
+            return Boolean.TRUE;
+        }
+        else return Boolean.FALSE;
     }
 
 
@@ -60,9 +78,18 @@ public class InputInfo {
         } else if (calculator.getSelectedOperation().equals(OperatorType.MULTIPLY.getType())) {
             calculator.setOperation(new MultiplyOperation());
         } else if (calculator.getSelectedOperation().equals(OperatorType.DIVIDE.getType())) {
-            calculator.setOperation(new DivideOperation());
+            try{
+                if(calculator.getSecondNumber() == 0)
+                    throw new WrongSecondNumberException();
+
+                calculator.setOperation(new DivideOperation());
+
+            } catch (WrongSecondNumberException e){
+                System.out.println(e.getMessage());
+            }
         }
     }
+
 
     // 나누기에서 두번째 숫자 확인
     public Boolean SecondInDivision(){
