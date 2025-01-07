@@ -3,7 +3,6 @@ package org.example.calculator_lv3;
 import java.util.regex.Pattern;
 
 public class InputInfo {
-
     private static final String OPERATION_REG = "[+\\-*/]";
     private static final String NUMBER_REG = "^[0-9]*$";
 
@@ -21,9 +20,10 @@ public class InputInfo {
 
 
     // 문제를 숫자와 연산자로 나누어서 대입
+    // 제너릭으로 변환 시 해당 메서드 수정 필요 ★★★
     public InputInfo TakeQuestion(String question){
-        String first = "";
-        String second = "";
+        String FIRST = "";
+        String SECOND = "";
         int OPERATOR = 0;
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -31,26 +31,29 @@ public class InputInfo {
         try{
             for (String i:question.split("")) {
                 if (checkNumber(i)) {
-                    if (OPERATOR == 0) {
-                        stringBuilder.append(first).append(i);
-                    } else {
-                        stringBuilder.append(second).append(i);
-                    }
+                    if(OPERATOR == 0){
+                        stringBuilder.append(FIRST).append(i); }
+                    else{
+                        stringBuilder.append(SECOND).append(i); }
+
                 } else if (checkOperator(i)) {
                     OPERATOR = 1;
-                    first = stringBuilder.toString();
-                    calculator.setFirstNumber(Integer.parseInt(first));
+                    // 첫번째 숫자(String)을 숫자로 변환하여 저장
+                    FIRST = stringBuilder.toString();
+                    calculator.setFirstNumber((Number) Double.parseDouble(FIRST));
 
-                    stringBuilder.replace(0, first.length(), "");
+                    // 두번째 숫자 입력을 위한 초기화
+                    stringBuilder.replace(0, FIRST.length(), "");
 
-                    calculator.setSelectedOperation(i);
-                }
-                else
+                    // 연산자 저장
+                    calculator.setInputOperator(i);
+
+                } else
                     // 숫자와 연산자가 아닌 다른 문자가 입력된 경우
                     throw new WrongInputException(i);
             }
-
-            calculator.setSecondNumber(Integer.parseInt(stringBuilder.toString()));
+            SECOND = stringBuilder.toString();
+            calculator.setSecondNumber((Number) Double.parseDouble(SECOND));
 
         } catch (WrongInputException e){
             System.out.println(e.getMessage());
@@ -71,18 +74,21 @@ public class InputInfo {
 
     // 연산자가 맞을 경우, enum 클래스인 OperatorType를 통해 연산자 정보 반환
     public void selectOperator(){
-        if(calculator.getSelectedOperation().equals(OperatorType.ADD.getType())) {
-            calculator.setOperation(new AddOperation());
-        } else if (calculator.getSelectedOperation().equals(OperatorType.SUBTRACT.getType())) {
-            calculator.setOperation(new SubstractOperation());
-        } else if (calculator.getSelectedOperation().equals(OperatorType.MULTIPLY.getType())) {
-            calculator.setOperation(new MultiplyOperation());
-        } else if (calculator.getSelectedOperation().equals(OperatorType.DIVIDE.getType())) {
+        if(calculator.getInputOperator().equals(OperatorType.ADD.getSymbol())) {
+            calculator.setOperation(OperatorType.ADD);
+
+        } else if(calculator.getInputOperator().equals(OperatorType.SUBTRACT.getSymbol())) {
+            calculator.setOperation(OperatorType.SUBTRACT);
+
+        } else if(calculator.getInputOperator().equals(OperatorType.MULTIPLY.getSymbol())) {
+            calculator.setOperation(OperatorType.MULTIPLY);
+
+        } else if (calculator.getInputOperator().equals(OperatorType.DIVIDE.getSymbol())) {
             try{
-                if(calculator.getSecondNumber() == 0)
+                if(calculator.getSecondNumber().equals(0))
                     throw new WrongSecondNumberException();
 
-                calculator.setOperation(new DivideOperation());
+                calculator.setOperation(OperatorType.DIVIDE);
 
             } catch (WrongSecondNumberException e){
                 System.out.println(e.getMessage());
@@ -93,14 +99,20 @@ public class InputInfo {
 
     // 나누기에서 두번째 숫자 확인
     public Boolean SecondInDivision(){
-        if(calculator.getSecondNumber() == 0){
+        if(calculator.getSecondNumber().equals(0)){
             return Boolean.FALSE;
         }
         return Boolean.TRUE;
     }
 
-    public int getResult(){
+
+    // 결과 반환
+    public Number getResult(){
         return calculator.calculate();
+    }
+
+    public OperatorType test(){
+        return calculator.getOperation();
     }
 
 }

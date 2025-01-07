@@ -1,20 +1,59 @@
 package org.example.calculator_lv3;
 
-// enum: 독립된 특수한 클래스로 heap에 저장되며 별개의 주소값을 가짐
-// valueOf를 이용해 입력받은 문자열과 일치하는 객체를 반환한다.
-enum OperatorType {
-    ADD("+"),
-    SUBTRACT("-"),
-    MULTIPLY("*"),
-    DIVIDE("/");
+public enum OperatorType {
+    ADD("+"){
+        @Override
+        public <T extends Number> T apply(T a, T b){
+            double result = a.doubleValue() + b.doubleValue();
+            return (T) theResulttype(result);
+        }
+    },
 
-    private String type;
-    private OperatorType(String type){
-        this.type = type;
+    SUBTRACT("-"){
+        @Override
+        public <T extends Number> T apply(T a, T b){
+            double result = a.doubleValue() - b.doubleValue();
+            return (T) theResulttype(result);
+        }
+    },
+
+    MULTIPLY("*"){
+        @Override
+        public <T extends Number> T apply(T a, T b){
+            double result = a.doubleValue() * b.doubleValue();
+            return (T) theResulttype(result);
+        }
+    },
+
+    DIVIDE("/"){
+        @Override
+        public <T extends Number> T apply(T a, T b){
+            double result = a.doubleValue() / b.doubleValue();
+            return (T) theResulttype(result);
+        }
+    };
+
+
+    private final String input;
+
+    OperatorType(String input){
+        this.input = input;
     }
 
-    public String getType(){
-        return type;
+    public String getSymbol() {
+        return input;
+    }
+
+    // 제네릭을 사용하여 연산 처리
+    public abstract <T extends Number> T apply(T a, T b);
+
+
+    // 결과에 맞는 데이터타입으로 반환
+    private static <T extends Number> Number theResulttype(double result){
+        if ((int)result == result){
+            return (int) result;
+        } else
+            return result;
     }
 }
 

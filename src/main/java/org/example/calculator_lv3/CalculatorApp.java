@@ -1,6 +1,5 @@
 package org.example.calculator_lv3;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class CalculatorApp {
@@ -10,6 +9,8 @@ public class CalculatorApp {
 
 
         while(true){
+            System.out.print("계산 식 입력: ");
+
             int test = 0;
             String question = scanner.nextLine();
             input.TakeQuestion(question);
@@ -29,6 +30,6 @@ public class CalculatorApp {
                 break;
         }
 
-        System.out.println(input.getResult());
+        System.out.println("결과: " + input.getResult());
     }
 }

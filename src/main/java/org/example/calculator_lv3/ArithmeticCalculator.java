@@ -1,39 +1,39 @@
 package org.example.calculator_lv3;
 
-public class ArithmeticCalculator {
+public class ArithmeticCalculator <T extends Number> {
 
-    private Integer firstNumber;
-    private Integer secondNumber;
-    private String selectedOperation;
+    private T firstNumber;
+    private T secondNumber;
+    private OperatorType operation;
 
-    private AbstractOperation operation;
+    private String input;
 
 
     // Setter
-    public void setSelectedOperation(String operation){
-        this.selectedOperation = operation;
-    }
-    public void setFirstNumber(int firstNumber){
+    public void setFirstNumber(T firstNumber){
         this.firstNumber = firstNumber;
     }
-    public void setSecondNumber(int secondNumber){
+    public void setSecondNumber(T secondNumber){
         this.secondNumber = secondNumber;
     }
-    public void setOperation(AbstractOperation operation) { this.operation =operation; }
+    public void setOperation(OperatorType operation) { this.operation = operation; }
+    public void setInputOperator(String input) { this.input = input; }
 
 
-    public String getSelectedOperation() { return this.selectedOperation; }
-    public int getFirstNumber() { return this.firstNumber; }
-    public int getSecondNumber() { return this.secondNumber; }
+    public OperatorType getOperation() { return this.operation; }
+    public T getFirstNumber() { return this.firstNumber; }
+    public T getSecondNumber() { return this.secondNumber; }
+    public String getInputOperator() { return this.input; }
+
 
     // 모든 변수에 값이 제대로 들어갔는지 확인
-    public Boolean isSelectedNumber() { if(this.selectedOperation == null) return Boolean.FALSE; else return Boolean.TRUE; }
-    public Boolean isFirstNumber() { if(this.firstNumber == null) return Boolean.FALSE; else return Boolean.TRUE; }
-    public Boolean isSecondNumber() { if(this.secondNumber == null) return Boolean.FALSE; else return Boolean.TRUE; }
+    public Boolean isSelectedNumber() { return this.input == null ? Boolean.FALSE :  Boolean.TRUE; }
+    public Boolean isFirstNumber() { return this.firstNumber == null ? Boolean.FALSE :  Boolean.TRUE; }
+    public Boolean isSecondNumber() { return this.secondNumber == null ? Boolean.FALSE :  Boolean.TRUE; }
 
 
-    public int calculate(){
-        return operation.operate(this.firstNumber, this.secondNumber);
+    public T calculate(){
+        return operation.apply(this.firstNumber, this.secondNumber);
     }
 
 }
