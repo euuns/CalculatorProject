@@ -15,7 +15,7 @@ public enum OperatorType {
         this.func = func;
     }
 
-    public double apply(double a, double b){
+    public Double apply(double a, double b){
         return func.apply(a,b);
     }
 
