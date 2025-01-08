@@ -21,21 +21,37 @@ public class InputInfo {
             CheckValue check = new CheckValue();
             if (check.isNumber(i) || (i.equals("."))) {  // 숫자거나, . 이라면 sb에 연결
                 sb.append(i);
-            } else if (check.isOperator(i)) {           // 연산자일 경우
-                if (sb.length() > 0) {                // sb에 이미 입력 중인 문자열이 있으면
+
+                // 괄호 체크 추가
+            } else if (check.isParentheses(i)) {
+                if(sb.length() > 0){
+                    // 앞에 숫자가 왔으면 계산식에 숫자를 추가하고 sb 초기화
                     this.calculationFormula.add(sb.toString());
-                    sb.setLength(0);                // 다음 숫자 연결을 위해 sb 초기화
+                    this.calculationFormula.add(i);     //괄호 추가
+                    sb.setLength(0);
+                } else{
+                    // 괄호 앞에 숫자가 없다면 = 연산자가 있을 경우 -> sb초기화 x 괄호 추가
+                    this.calculationFormula.add(i);
+                }
+
+                // 연산자일 경우
+            } else if (check.isOperator(i)) {
+                if (sb.length() > 0) {
+                    this.calculationFormula.add(sb.toString());
+                    sb.setLength(0);
                 }
                 this.calculationFormula.add(i);
+
+                // 숫자, 괄호, 연산자 모두 아닐 경우 -> 예외 발생
             } else {
                 throw new WrongInputException(i);
             }
         }
+
         // 모든 문자열 확인이 끝나고 sb에 남아있는 마지막 숫자까지 저장
         if (sb.length() > 0) {
             this.calculationFormula.add(sb.toString());
         }
-
     }
 
 

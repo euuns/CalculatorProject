@@ -6,6 +6,7 @@ public class CheckValue {
 
     private static final String OPERATION_REG = "[+\\-*/]";
     private static final String NUMBER_REG = "^[0-9]+(.[0-9]+)?$";
+    private static final String PARENTHESES_REG = "[()]";
 
 
     // 숫자가 입력되었는지 확인하는 메서드
@@ -16,6 +17,7 @@ public class CheckValue {
     public Boolean isOperator(String inputOperator){
         return Pattern.matches(OPERATION_REG, inputOperator);
     }
+    public Boolean isParentheses(String inputString) { return Pattern.matches(PARENTHESES_REG, inputString); }
 
 
 }
