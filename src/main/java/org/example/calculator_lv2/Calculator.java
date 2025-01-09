@@ -32,7 +32,7 @@ public class Calculator {
     }
 
     // 연산자가 제대로 입력됐는지 확인
-    public static Boolean checkOperator(String operator){
+    public Boolean checkOperator(String operator){
         return switch (operator) {
             case "+", "-", "*", "/" -> Boolean.FALSE;
             default -> Boolean.TRUE;
@@ -48,7 +48,7 @@ public class Calculator {
     }
 
     // ArithmeticException 발생으로 결과를 반환하지 않음
-    public static void arithmeticError(){
+    public void arithmeticError(){
         System.out.println("0으로 나누는 것은 불가능합니다.");
     }
 
