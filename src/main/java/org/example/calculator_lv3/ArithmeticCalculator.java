@@ -1,8 +1,6 @@
 package org.example.calculator_lv3;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 
 public class ArithmeticCalculator <T extends Number> {
@@ -39,26 +37,26 @@ public class ArithmeticCalculator <T extends Number> {
 
 
     // 후위로 표기된 postfixResult를 가져와 계산
-    // 계산은 stack 이용
+    // 계산은 deque 이용
     public double calculate() throws WrongSecondNumberException{
-        Stack<Double> result = new Stack<>();
+        Deque<Double> result = new LinkedList<>();
 
         for (String s:postfixResult) {
             if(check.isNumber(s)){
-                result.push(Double.parseDouble(s));
+                result.addLast(Double.parseDouble(s));
             } else{
                 selectOperator(s);
 
                 // 먼저 나가는 숫자가 뒤에 있는 수
                 // 나누기 연산을 해야 하니 순서 중요
-                double y = result.pop();
-                double x = result.pop();
+                double y = result.removeLast();
+                double x = result.removeLast();
 
                 if(operation.name().equals("DIVIDE") && y==0) {
                     throw new WrongSecondNumberException();
                 }
 
-                result.push(operation.apply(x, y));
+                result.addLast(operation.apply(x, y));
             }
         }
         return result.pop();
@@ -70,7 +68,7 @@ public class ArithmeticCalculator <T extends Number> {
     public Number typeSetting(double answer){
         if(answer == (int)answer)
             return (int)answer;
-        else return answer;
+        else return Math.round(answer*1000) / 1000.0;
     }
 
 

@@ -12,7 +12,7 @@ public class CalculatorApp {
     static double result;
 
     static String end = "";
-    static Queue<Double> results = new LinkedList<>();
+    static Queue<Double> resultsList = new LinkedList<>();
 
 
     public static void main(String[] args) {
@@ -31,8 +31,9 @@ public class CalculatorApp {
                 result = calculator.calculate();
                 // WrongSecondNumberException
 
+
                 System.out.println("결과: " + calculator.typeSetting(result));
-                results.add(result);
+                resultsList.add(result);
 
             } catch (Exception e){
                 condition =1;
@@ -49,10 +50,13 @@ public class CalculatorApp {
         System.out.print("찾을 값을 입력해주세요: ");
         Double findNumber = scanner.nextDouble();
 
-        System.out.print(findNumber + "보다 큰 수는 ");
+        List<Double> bigNumber = resultsList.stream().filter( number -> number > findNumber ).toList();
 
-        List<Double> bigNumber = results.stream().filter( number -> number > findNumber ).toList();
-        System.out.println(bigNumber + "입니다.");
+        if (bigNumber.isEmpty()){
+            System.out.println(findNumber + "보다 큰 수를 찾을 수 없습니다.");
+        } else{
+            System.out.print(findNumber + "보다 큰 수는 " + bigNumber + "입니다.");
+        }
 
     }
 }
