@@ -7,20 +7,20 @@ public enum OperatorType {
     DIVIDE("/", (a,b)->a/b);
 
 
-    private final String input;
-    private final Operation<Double, Double, Double> func;
+    private final String symbol;
+    private final Operation<Double, Double, Double> operation;
 
-    OperatorType(String input, Operation<Double, Double, Double> func){
-        this.input = input;
-        this.func = func;
+    OperatorType(String input, Operation<Double, Double, Double> operation){
+        this.symbol = input;
+        this.operation = operation;
     }
 
     public Double apply(double a, double b){
-        return func.apply(a,b);
+        return operation.apply(a,b);
     }
 
     public String getSymbol() {
-        return input;
+        return symbol;
     }
 }
 
