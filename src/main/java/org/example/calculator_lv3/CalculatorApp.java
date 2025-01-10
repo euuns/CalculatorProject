@@ -8,14 +8,13 @@ import java.util.Scanner;
 public class CalculatorApp {
 
     static Scanner scanner = new Scanner(System.in);
-    static ArithmeticCalculator calculator;
     static double result;
-
     static String end = "";
     static Queue<Double> resultsList = new LinkedList<>();
 
 
     public static void main(String[] args) {
+        ArithmeticCalculator calculator;
 
         do{
             int condition = 0;      // 예외 발생 시 다시 입력하기 위해 사용

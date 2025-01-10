@@ -8,8 +8,6 @@ public class ArithmeticCalculator <T extends Number> {
 
     private OperatorType operation;
     private final InputInfo inputInfo;
-    private final CheckValue check = new CheckValue();
-
 
     private List<String> postfixResult;
 
@@ -39,6 +37,7 @@ public class ArithmeticCalculator <T extends Number> {
     // 후위로 표기된 postfixResult를 가져와 계산
     // 계산은 deque 이용
     public double calculate() throws WrongSecondNumberException{
+        CheckValue check = new CheckValue();
         Deque<Double> result = new LinkedList<>();
 
         for (String s:postfixResult) {
