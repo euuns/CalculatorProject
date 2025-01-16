@@ -75,7 +75,7 @@ Lv 2를 확장해 클래스를 활용하는 계산기를 만든다. 자바 객�
 
 #### 클래스 다이어그램
 
-![Diagram](https://github.com/user-attachments/assets/9dc34857-92c5-4260-8510-48e6e60e4640)
+![Diagram2](https://github.com/user-attachments/assets/bc807431-7a49-4444-8e24-c4e2b33124aa)
 
 
 ##### <interface> Operation<T, U, R>
